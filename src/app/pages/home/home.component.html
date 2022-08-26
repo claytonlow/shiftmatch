@@ -1,0 +1,56 @@
+<section class="scheduler-toolbar">
+    <div class="actions-start">
+        <button type="button" (click)="setToCurrentWeek()" class="py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200">
+        Today
+        </button>
+    </div>
+
+    <div class="date-range">
+        <i-tabler name="chevron-left"  (click)="previousWeek()"></i-tabler>
+        <span>{{dateRange[0] | formatDate:'MMM D'}} - {{dateRange[1] | formatDate:'MMM D'}}</span>
+        <i-tabler name="chevron-right" (click)="nextWeek()"></i-tabler>
+    </div>
+
+    <div class="actions-end">
+        <button type="button" (click)="showCalendar()" class="py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200">
+            Month
+        </button>
+    </div>
+
+
+</section>
+
+<section class="scheduler-table">
+    <div class="scheduler-table-header">
+        <div class="scheduler-table-cell-fixed">
+            <button 
+                (click)="showFilterDialog()"
+                class="filter-list">Filtered List <i-tabler name="chevron-down"></i-tabler></button>
+        </div>
+
+        <div class="scheduler-table-cell" *ngFor="let date of dateHeaders">
+            <span class="day">{{date | formatDate:"dddd"}}</span>
+            <span class="day-number">{{date | formatDate:"D"}}</span>
+        </div>        
+    </div>
+
+    <div class="scheduler-table-content">
+        <div *ngFor="let row of rows$ | async" class="scheduler-table-row">
+            
+            <div class="scheduler-table-cell-fixed">
+                <span class="workplace">{{row.workplace?.name}}</span>
+                <span class="profession">Nursing & Midwifery</span>
+                <!-- Didn't get to professions for this demo, so hard coded for now-->
+            </div>
+
+            <div class="scheduler-table-cell" [ngClass]="schedulerTableCellClass(row.shifts[date])" (click)="openDrawer(date, row)"  *ngFor="let date of dateHeaders | formatDates:'YYYY-MM-DD'">
+                <div class="placements">
+                    {{renderPlacement(row.shifts[date])}}
+                </div>
+            </div>
+
+            
+
+        </div>
+    </div>
+</section>

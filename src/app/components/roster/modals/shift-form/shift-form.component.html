@@ -1,0 +1,42 @@
+<h2 mat-dialog-title>{{title}}</h2>
+<mat-dialog-content>
+    <form *ngIf="shiftForm" [formGroup]='shiftForm' novalidate>
+
+        <div *ngFor="let shift of shifts.controls; let i = index" formArrayName="shifts" >
+            <div [formGroupName]="i" class="shift" >                
+                <mat-form-field appearance="fill">
+                    <mat-label>Start time</mat-label>
+                    <input matInput type="time" id="{{'start_datetime'+i}}" formControlName="start_datetime">                    
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>End time</mat-label>
+                    <input matInput type="time" id="{{'end_datetime'+i}}" formControlName="end_datetime">
+                </mat-form-field>
+
+                <mat-form-field appearance="fill">
+                    <mat-label>Assignee</mat-label>
+                    <mat-select  id="{{'user_id'+i}}" formControlName="user_id">
+                        <mat-option [value]="user.id" *ngFor="let user of users | async">
+                            {{user.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="form-errors text-right" *ngIf="!shiftForm.valid && shiftForm.touched">
+            Please ensure each shift has a start and end time
+        </div>
+    </form>
+
+    <div class="text-right" *ngIf="canAddShift">
+        <button mat-button (click)="addShift()"><i-tabler name="plus"></i-tabler>Add Shift</button>
+    </div>
+
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button (click)="saveShifts()">Save</button>
+</mat-dialog-actions>

@@ -1,1 +1,32 @@
 /* You can add global styles to this file, and also import other style files */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;  background: #F6F8FC; }
+
+.navbar {
+    background:#FFF;
+
+    img {
+        max-height:35px;
+    }
+
+    a.mat-list-item {
+        color: rgb(56, 56, 56);
+    }
+}
+
+.mtx-drawer-container {
+    box-shadow: 0 8px 10px -5px #0003, 0 16px 24px 2px #00000024, 0 6px 30px 5px #0000001f;
+    background: white;
+    color: #000000de;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    padding:0;
+}
+
+.mtx-drawer-content-wrapper {
+    padding:0 !important;
+}

@@ -1,0 +1,74 @@
+<section class="toolbar">
+    <div class="dismiss">
+        <i-tabler name="arrow-bar-right"></i-tabler>
+    </div>
+
+    <div class="action-buttons">
+        <button 
+            type="button" 
+            (click)="presentShiftForm()" 
+            class="py-1 px-5 mr-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+            Add Shortfall
+        </button>
+    </div>
+</section>
+
+<section class="content" *ngIf="workplace">
+    <h1>{{workplace.name}}</h1>
+
+    <div class="touch-points">
+        <div class="touch-point-row">
+            <div class="touch-point-header">Category</div>
+            <div class="touch-point-content">Nursing & Midwifery</div>
+        </div>
+
+        <div class="touch-point-row">
+            <div class="touch-point-header">Location</div>
+            <div class="touch-point-content">{{workplace.location}}</div>
+        </div>
+
+        <div class="touch-point-row">
+            <div class="touch-point-header">Date</div>
+            <div class="touch-point-content">{{data.date | formatDate:'dddd Do MMMM'}}</div>
+        </div>
+    </div>
+</section>
+
+<div class="divider-text">
+    <div class="divider-line"></div>
+    <span>Shifts</span>
+    <div class="divider-line"></div>
+</div>
+
+<section class="timeline">
+    <div class="shifts-empty"  *ngIf="!shifts || shifts?.length === 0">
+        It looks like there are no shifts for <strong>{{data.date | formatDate:'dddd Do MMMM'}}</strong>. Would you like to add one?
+
+        <div class="text-right">
+            <button 
+                type="button"  
+                (click)="presentShiftForm()"  
+                class="py-1 px-5 mr-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                Add Shortfall
+            </button>
+        </div>
+    </div>
+
+    <ng-container *ngIf="shifts && shifts.length > 0">
+        <div 
+            class="shift" 
+            [ngClass]="{ unfilled: !shift.user_id, complete: shift.end_datetime < now }" 
+            (click)="presentShiftForm(shift)" 
+            *ngFor="let shift of shifts | sortBy:'start_datetime':'asc'" 
+        >
+            <div class="shift-time">
+                {{shift.start_datetime | formatDate:'HH:mm'}} - {{shift.end_datetime | formatDate:'HH:mm'}}
+            </div>
+
+            <div class="shift-assignee" *ngIf="shift.user_id">
+                {{usersById[shift.user_id].name}}
+            </div>
+        </div>
+    </ng-container>
+
+</section>

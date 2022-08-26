@@ -1,0 +1,4 @@
+
+<p *ngIf="allUsers$ | async as users">
+    <span *ngFor="let user of users">{{user.id}}</span>
+</p>
